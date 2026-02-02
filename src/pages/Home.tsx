@@ -15,15 +15,15 @@ function Home() {
   const { accessToken } = useAuth();
 
  
-    useEffect(() => {
-      console.log('Access Token:', accessToken);
-    }, [accessToken]);
+    // useEffect(() => {
+    //   console.log('Access Token:', accessToken);
+    // }, [accessToken]);
     
   return (
     <div>
       <h2 className="text-3xl font-bold text-gray-800 mb-2">Dashboard Overview</h2>
       <p className="text-sm text-gray-600 mb-2">Selected Event: <span className="font-medium text-gray-800">{selectedEvent}</span></p>
-      <p className="text-sm text-gray-600 mb-6">Access Token: <span className="font-medium text-gray-800">{accessToken ? `${accessToken.substring(0, 20)}...` : 'Not available'}</span></p>
+      {/* <p className="text-sm text-gray-600 mb-6">Access Token: <span className="font-medium text-gray-800">{accessToken ? `${accessToken.substring(0, 20)}...` : 'Not available'}</span></p> */}
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
         {stats.map((stat, index) => {

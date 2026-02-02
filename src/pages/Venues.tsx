@@ -337,6 +337,7 @@ interface Venue {
   id: number;
   venue: string;
   conferencecode: string | null;
+  description?: string;
 }
 
 const API_BASE_URL = 'https://backendconf.roboticsaisummit.com/api/robotics/venues';
@@ -352,12 +353,14 @@ function Venues() {
   // Add state
   const [showAdd, setShowAdd] = useState(false);
   const [addVenue, setAddVenue] = useState('');
+  const [addDescription, setAddDescription] = useState('');
   const [addSubmitting, setAddSubmitting] = useState(false);
   const [addError, setAddError] = useState<string | null>(null);
 
   // Edit state
   const [editingVenue, setEditingVenue] = useState<Venue | null>(null);
   const [editVenue, setEditVenue] = useState('');
+  const [editDescription, setEditDescription] = useState('');
   const [editSubmitting, setEditSubmitting] = useState(false);
   const [editError, setEditError] = useState<string | null>(null);
 
@@ -406,12 +409,14 @@ function Venues() {
   const openAdd = () => {
     setShowAdd(true);
     setAddVenue('');
+    setAddDescription('');
     setAddError(null);
   };
 
   const closeAdd = () => {
     setShowAdd(false);
     setAddVenue('');
+    setAddDescription('');
     setAddError(null);
   };
 
@@ -433,14 +438,18 @@ function Venues() {
     setAddError(null);
 
     try {
-      // POST /api/robotics/venues?venue=...&conferencecode=...&username=...
-      const params = new URLSearchParams();
-      params.append('venue', addVenue);
-      params.append('conferencecode', selectedEvent);
-      params.append('username', username);
+      // POST /api/robotics/venues with FormData
+      const formData = new FormData();
+      formData.append('venue', addVenue.trim());
+      formData.append('conferencecode', selectedEvent);
+      formData.append('username', username);
+      if (addDescription.trim()) {
+        formData.append('description', addDescription.trim());
+      }
 
-      const res = await fetch(`${API_BASE_URL}?${params.toString()}`, { 
-        method: 'POST' 
+      const res = await fetch(API_BASE_URL, { 
+        method: 'POST',
+        body: formData
       });
 
       if (!res.ok) {
@@ -462,12 +471,14 @@ function Venues() {
   const openEdit = (v: Venue) => {
     setEditingVenue(v);
     setEditVenue(v.venue || '');
+    setEditDescription(v.description || '');
     setEditError(null);
   };
 
   const closeEdit = () => {
     setEditingVenue(null);
     setEditVenue('');
+    setEditDescription('');
     setEditError(null);
   };
 
@@ -486,15 +497,21 @@ function Venues() {
     setEditError(null);
 
     try {
-      // PUT /api/robotics/venues/{id}?venue=...&conferencecode=...&username=...
-      const params = new URLSearchParams();
-      params.append('venue', editVenue);
-      params.append('conferencecode', selectedEvent);
-      params.append('username', username);
+      // PUT /api/robotics/venues/{id} with FormData
+      const formData = new FormData();
+      formData.append('venue', editVenue.trim());
+      formData.append('conferencecode', selectedEvent);
+      formData.append('username', username);
+      if (editDescription.trim()) {
+        formData.append('description', editDescription.trim());
+      }
 
-      const url = `${API_BASE_URL}/${editingVenue.id}?${params.toString()}`;
+      const url = `${API_BASE_URL}/${editingVenue.id}`;
 
-      const res = await fetch(url, { method: 'PUT' });
+      const res = await fetch(url, { 
+        method: 'PUT',
+        body: formData
+      });
       
       if (!res.ok) {
         const text = await res.text().catch(() => '');
@@ -570,6 +587,7 @@ function Venues() {
                 <tr>
                   <th className="px-6 py-4 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">ID</th>
                   <th className="px-6 py-4 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Venue</th>
+                  <th className="px-6 py-4 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Description</th>
                   <th className="px-6 py-4 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Actions</th>
                 </tr>
               </thead>
@@ -578,6 +596,7 @@ function Venues() {
                   <tr key={venue.id} className="hover:bg-gray-50 transition-colors">
                     <td className="px-6 py-4 text-sm text-gray-700">{venue.id}</td>
                     <td className="px-6 py-4 text-sm font-medium text-gray-900">{venue.venue}</td>
+                    <td className="px-6 py-4 text-sm text-gray-600">{venue.description || '-'}</td>
                     <td className="px-6 py-4">
                       <div className="flex items-center gap-2">
                         <button onClick={() => openEdit(venue)} className="p-2 text-blue-600 hover:bg-blue-50 rounded-lg transition-colors">
@@ -619,6 +638,16 @@ function Venues() {
                   placeholder="Enter venue name"
                 />
               </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">Description</label>
+                <textarea 
+                  value={editDescription} 
+                  onChange={(e) => setEditDescription(e.target.value)} 
+                  className="w-full px-3 py-2 border border-gray-300 rounded focus:ring-2 focus:ring-blue-500 focus:outline-none" 
+                  placeholder="Enter venue description (optional)"
+                  rows={3}
+                />
+              </div>
 
               {editError && <div className="text-red-600 text-sm bg-red-50 p-2 rounded">{editError}</div>}
 
@@ -655,6 +684,16 @@ function Venues() {
                   onChange={(e) => setAddVenue(e.target.value)} 
                   className="w-full px-3 py-2 border border-gray-300 rounded focus:ring-2 focus:ring-blue-500 focus:outline-none" 
                   placeholder="Enter venue name"
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">Description</label>
+                <textarea 
+                  value={addDescription} 
+                  onChange={(e) => setAddDescription(e.target.value)} 
+                  className="w-full px-3 py-2 border border-gray-300 rounded focus:ring-2 focus:ring-blue-500 focus:outline-none" 
+                  placeholder="Enter venue description (optional)"
+                  rows={3}
                 />
               </div>
 

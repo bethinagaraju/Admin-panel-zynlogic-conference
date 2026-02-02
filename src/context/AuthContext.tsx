@@ -2,6 +2,7 @@ import React, { createContext, useContext, useState, useEffect, ReactNode } from
 
 interface AuthContextType {
   isAuthenticated: boolean;
+  isLogin: boolean;
   username: string | null;
   accessToken: string | null;
   role: string | null;
@@ -28,6 +29,7 @@ interface AuthProviderProps {
 
 export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [isLogin, setIsLogin] = useState(false);
   const [username, setUsername] = useState<string | null>(null);
   const [accessToken, setAccessToken] = useState<string | null>(null);
   const [role, setRole] = useState<string | null>(null);
@@ -37,10 +39,13 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     const token = localStorage.getItem('adminToken');
     const storedUsername = localStorage.getItem('adminUsername');
     const storedRole = localStorage.getItem('adminRole');
-    if (token) {
-      // Optionally verify token here
+    const storedIsLogin = localStorage.getItem('adminIsLogin') === 'true';
+    
+    if (token && storedIsLogin) {
+      // User has completed full login process
       setAccessToken(token);
       setIsAuthenticated(true);
+      setIsLogin(true);
       setUsername(storedUsername);
       setRole(storedRole);
     }
@@ -86,8 +91,10 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         const token = data.token;
         localStorage.setItem('adminToken', token);
         localStorage.setItem('adminUsername', username);
+        localStorage.setItem('adminIsLogin', 'true');
         setAccessToken(token);
         setIsAuthenticated(true);
+        setIsLogin(true);
         setOtpRequired(false);
         return true;
       } else {
@@ -103,7 +110,9 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     localStorage.removeItem('adminToken');
     localStorage.removeItem('adminUsername');
     localStorage.removeItem('adminRole');
+    localStorage.removeItem('adminIsLogin');
     setIsAuthenticated(false);
+    setIsLogin(false);
     setUsername(null);
     setAccessToken(null);
     setRole(null);
@@ -128,7 +137,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   };
 
   return (
-    <AuthContext.Provider value={{ isAuthenticated, username, accessToken, role, otpRequired, login, verifyOtp, logout, changePassword }}>
+    <AuthContext.Provider value={{ isAuthenticated, isLogin, username, accessToken, role, otpRequired, login, verifyOtp, logout, changePassword }}>
       {children}
     </AuthContext.Provider>
   );

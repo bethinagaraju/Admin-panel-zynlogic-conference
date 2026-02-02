@@ -1,4 +1,4 @@
-import { Home, Users, Building2, GraduationCap, Calendar, Settings, MapPin, FileText, BookOpen } from 'lucide-react';
+import { Home, Users, Building2, GraduationCap, Calendar, Settings, MapPin, FileText, BookOpen, Star } from 'lucide-react';
 import { useSelectedEvent, SelectedEvent } from '../context/SelectedEventContext';
 import { useAuth } from '../context/AuthContext';
 
@@ -16,8 +16,9 @@ function Sidebar({ activeTab, setActiveTab, isCollapsed }: SidebarProps) {
       { id: 'home', label: 'Home', icon: Home },
       { id: 'speakers', label: 'Speakers', icon: Users },
       { id: 'sponsors', label: 'Sponsors', icon: Building2 },
-      { id: 'universities', label: 'Universities', icon: GraduationCap },
+      // { id: 'universities', label: 'Universities', icon: GraduationCap },
       { id: 'venues', label: 'Venues', icon: MapPin },
+      { id: 'testimonials', label: 'Testimonials', icon: Star },
       { id: 'topics', label: 'Topics', icon: BookOpen },
       { id: 'agenda', label: 'Agenda', icon: Calendar },
       { id: 'committees', label: 'Committees', icon: Users },
@@ -70,6 +71,9 @@ function Sidebar({ activeTab, setActiveTab, isCollapsed }: SidebarProps) {
               >
                 <option value="robotics">ROBOTICSAISUMMITS</option>
                 <option value="biomedical">BIO MEDICAL</option>
+                <option value="ICRES">Renewable Energy</option>
+                <option value="ICACME">Computing & Materials</option>
+                <option value="ICAFTech">Food Tech</option>
               </select>
             </div>
           );

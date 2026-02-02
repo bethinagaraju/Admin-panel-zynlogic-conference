@@ -6,6 +6,7 @@ import Speakers from './pages/Speakers';
 import Sponsors from './pages/Sponsors';
 import Universities from './pages/Universities';
 import Venues from './pages/Venues';
+import Testimonials from './pages/Testimonials';
 import Topics from './pages/Topics';
 import Agenda from './pages/Agenda';
 import Committees from './pages/Committees';
@@ -19,7 +20,7 @@ import Login from './pages/Login';
 import { useAuth } from './context/AuthContext';
 
 function App() {
-  const { isAuthenticated, accessToken, logout } = useAuth();
+  const { isAuthenticated, isLogin, accessToken, logout } = useAuth();
   const [activeTab, setActiveTab] = useState('home');
   const [isCollapsed, setIsCollapsed] = useState(false);
 
@@ -78,7 +79,7 @@ function App() {
     setIsCollapsed(!isCollapsed);
   };
 
-  if (!isAuthenticated) {
+  if (!isLogin) {
     return <Login />;
   }
 
@@ -94,6 +95,8 @@ function App() {
         return <Universities />;
       case 'venues':
         return <Venues />;
+      case 'testimonials':
+        return <Testimonials />;
       case 'topics':
         return <Topics />;
       case 'agenda':
