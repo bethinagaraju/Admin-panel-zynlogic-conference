@@ -1157,6 +1157,7 @@ interface Speaker {
   conferencecode: string | null;
   imagePath?: string;
   speakerType?: string | null;
+  visible?: boolean;
 }
 
 const API_BASE_URL = 'https://backendconf.roboticsaisummit.com/api/speakers';
@@ -1174,7 +1175,9 @@ function Speakers() {
   const [editName, setEditName] = useState('');
   const [editUniversity, setEditUniversity] = useState('');
   const [editSpeakerType, setEditSpeakerType] = useState('');
+  const [editVisible, setEditVisible] = useState(true);
   const [editImageFile, setEditImageFile] = useState<File | null>(null);
+  const [editImageUrl, setEditImageUrl] = useState('');
   const [submitting, setSubmitting] = useState(false);
   const [submitError, setSubmitError] = useState<string | null>(null);
 
@@ -1183,6 +1186,7 @@ function Speakers() {
   const [addName, setAddName] = useState('');
   const [addUniversity, setAddUniversity] = useState('');
   const [addSpeakerType, setAddSpeakerType] = useState('');
+  const [addVisible, setAddVisible] = useState(true);
   const [addImageFile, setAddImageFile] = useState<File | null>(null);
   const [addSubmitting, setAddSubmitting] = useState(false);
   const [addError, setAddError] = useState<string | null>(null);
@@ -1268,7 +1272,9 @@ function Speakers() {
     setEditName(s.name);
     setEditUniversity(s.university);
     setEditSpeakerType(s.speakerType || '');
+    setEditVisible(s.visible ?? true);
     setEditImageFile(null); // Reset file input
+    setEditImageUrl('');
     setSubmitError(null);
   };
 
@@ -1277,7 +1283,9 @@ function Speakers() {
     setEditName('');
     setEditUniversity('');
     setEditSpeakerType('');
+    setEditVisible(true);
     setEditImageFile(null);
+    setEditImageUrl('');
     setSubmitError(null);
   };
 
@@ -1289,15 +1297,18 @@ function Speakers() {
 
     try {
       const body = new FormData();
-      if (editName) body.append('name', editName);
-      if (editUniversity) body.append('university', editUniversity);
-      if (editSpeakerType) body.append('speakerType', editSpeakerType);
-      
+      body.append('name', editName);
+      body.append('university', editUniversity);
       body.append('conferencecode', selectedEvent);
+      body.append('speakerType', editSpeakerType);
+      body.append('visible', editVisible.toString());
       body.append('username', username || '');
       
       if (editImageFile) {
         body.append('image', editImageFile);
+      }
+      if (editImageUrl) {
+        body.append('imageUrl', editImageUrl);
       }
 
       // PUT /api/speakers/{id}
@@ -1327,11 +1338,20 @@ function Speakers() {
     setAddName('');
     setAddUniversity('');
     setAddSpeakerType('');
+    setAddVisible(true);
     setAddImageFile(null);
     setAddError(null);
   };
 
-  const closeAdd = () => setShowAdd(false);
+  const closeAdd = () => {
+    setShowAdd(false);
+    setAddName('');
+    setAddUniversity('');
+    setAddSpeakerType('');
+    setAddVisible(true);
+    setAddImageFile(null);
+    setAddError(null);
+  };
 
   const submitAdd = async () => {
     if (!selectedEvent) {
@@ -1349,11 +1369,12 @@ function Speakers() {
 
     try {
       const body = new FormData();
+      body.append('image', addImageFile);
       body.append('name', addName);
       body.append('university', addUniversity);
       body.append('conferencecode', selectedEvent);
       body.append('speakerType', addSpeakerType);
-      body.append('image', addImageFile);
+      body.append('visible', addVisible.toString());
       body.append('username', username || '');
 
       // POST /api/speakers/robotics
@@ -1437,6 +1458,7 @@ function Speakers() {
               <th className="p-3 text-left font-semibold text-gray-700">Name</th>
               <th className="p-3 text-left font-semibold text-gray-700">University</th>
               <th className="p-3 text-left font-semibold text-gray-700">Type</th>
+              <th className="p-3 text-left font-semibold text-gray-700">Visible</th>
               <th className="p-3 text-left font-semibold text-gray-700">Image</th>
               <th className="p-3 text-left font-semibold text-gray-700">Actions</th>
             </tr>
@@ -1444,7 +1466,7 @@ function Speakers() {
           <tbody>
             {speakers.length === 0 ? (
               <tr>
-                <td colSpan={7} className="p-4 text-center text-gray-500">
+                <td colSpan={8} className="p-4 text-center text-gray-500">
                   No speakers found for {selectedEvent}.
                 </td>
               </tr>
@@ -1465,6 +1487,9 @@ function Speakers() {
                   <td className="p-3 font-medium text-gray-800">{s.name}</td>
                   <td className="p-3 text-gray-600">{s.university}</td>
                   <td className="p-3 text-gray-600">{s.speakerType ?? '—'}</td>
+                  <td className="p-3 text-center">
+                    <span className={`inline-block w-3 h-3 rounded-full ${s.visible ? 'bg-green-500' : 'bg-red-500'}`}></span>
+                  </td>
                   <td className="p-3">
                     {s.imagePath ? (
                       <img
@@ -1551,6 +1576,22 @@ function Speakers() {
             </div>
 
             <div>
+              <label className="flex items-center gap-2">
+                <input
+                  type="checkbox"
+                  checked={editingSpeaker ? editVisible : addVisible}
+                  onChange={(e) =>
+                    editingSpeaker
+                      ? setEditVisible(e.target.checked)
+                      : setAddVisible(e.target.checked)
+                  }
+                  className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500"
+                />
+                <span className="text-sm font-medium text-gray-700">Visible</span>
+              </label>
+            </div>
+
+            <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">
                 {editingSpeaker ? 'Change Image (Optional)' : 'Image (Required)'}
               </label>
@@ -1565,6 +1606,19 @@ function Speakers() {
                 className="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100"
               />
             </div>
+
+            {editingSpeaker && (
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">Image URL (Optional)</label>
+                <input
+                  type="url"
+                  placeholder="https://example.com/image.jpg"
+                  value={editImageUrl}
+                  onChange={(e) => setEditImageUrl(e.target.value)}
+                  className="w-full border border-gray-300 p-2 rounded focus:ring-2 focus:ring-blue-500 focus:outline-none"
+                />
+              </div>
+            )}
 
             {(submitError || addError) && (
               <div className="bg-red-50 text-red-600 p-3 rounded text-sm border border-red-200">
