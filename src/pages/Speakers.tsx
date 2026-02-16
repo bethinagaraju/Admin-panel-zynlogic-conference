@@ -333,7 +333,7 @@ function Speakers() {
       }
 
       // POST /api/speakers/{conferencecode}
-      const res = await fetch(`${API_BASE_URL}/${selectedEvent}`, {
+      const res = await fetch(`${API_BASE_URL}/robotics`, {
         method: 'POST',
         body,
       });
