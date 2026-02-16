@@ -15,6 +15,7 @@ interface Speaker {
   slug?: string | null;
   linkedin?: string | null;
   partnerLogo?: string | null;
+  speakerrole?: string | null;
 }
 
 interface SpeakerSection {
@@ -63,6 +64,7 @@ function Speakers() {
   const [editPartnerLogoFile, setEditPartnerLogoFile] = useState<File | null>(null);
   const [submitting, setSubmitting] = useState(false);
   const [submitError, setSubmitError] = useState<string | null>(null);
+  const [editSpeakerRole, setEditSpeakerRole] = useState('');
 
   // Add State
   const [showAdd, setShowAdd] = useState(false);
@@ -76,6 +78,7 @@ function Speakers() {
   const [addPartnerLogoFile, setAddPartnerLogoFile] = useState<File | null>(null);
   const [addSubmitting, setAddSubmitting] = useState(false);
   const [addError, setAddError] = useState<string | null>(null);
+  const [addSpeakerRole, setAddSpeakerRole] = useState('');
 
   const [reloadCounter, setReloadCounter] = useState(0);
   const [deletingIds, setDeletingIds] = useState<number[]>([]);
@@ -201,6 +204,7 @@ function Speakers() {
     setEditLinkedin(s.linkedin || '');
     setEditPartnerLogoFile(null); // Reset file input
     setSubmitError(null);
+    setEditSpeakerRole(s.speakerrole || '');
   };
 
   const closeEdit = () => {
@@ -215,6 +219,7 @@ function Speakers() {
     setEditLinkedin('');
     setEditPartnerLogoFile(null);
     setSubmitError(null);
+    setEditSpeakerRole('');
   };
 
   const submitEdit = async () => {
@@ -231,6 +236,7 @@ function Speakers() {
       body.append('speakerType', editSpeakerType);
       body.append('visible', editVisible.toString());
       body.append('username', username || '');
+      body.append('speakerrole', editSpeakerRole);
 
       if (editSlug) {
         body.append('slug', editSlug);
@@ -281,6 +287,7 @@ function Speakers() {
     setAddLinkedin('');
     setAddPartnerLogoFile(null);
     setAddError(null);
+    setAddSpeakerRole('');
   };
 
   const closeAdd = () => {
@@ -294,6 +301,7 @@ function Speakers() {
     setAddLinkedin('');
     setAddPartnerLogoFile(null);
     setAddError(null);
+    setAddSpeakerRole('');
   };
 
   const submitAdd = async () => {
@@ -318,6 +326,7 @@ function Speakers() {
       body.append('speakerType', addSpeakerType);
       body.append('visible', addVisible.toString());
       body.append('username', username || '');
+      body.append('speakerrole', addSpeakerRole);
 
       if (addSlug) {
         body.append('slug', addSlug);
@@ -770,6 +779,7 @@ function Speakers() {
               <th className="p-3 text-left font-semibold text-gray-700">Name</th>
               <th className="p-3 text-left font-semibold text-gray-700">University</th>
               <th className="p-3 text-left font-semibold text-gray-700">Type</th>
+              <th className="p-3 text-left font-semibold text-gray-700">Speaker Role</th>
               <th className="p-3 text-left font-semibold text-gray-700">Slug</th>
               <th className="p-3 text-left font-semibold text-gray-700">LinkedIn</th>
               <th className="p-3 text-left font-semibold text-gray-700">Partner</th>
@@ -802,6 +812,7 @@ function Speakers() {
                   <td className="p-3 font-medium text-gray-800">{s.name}</td>
                   <td className="p-3 text-gray-600">{s.university}</td>
                   <td className="p-3 text-gray-600">{s.speakerType ?? '—'}</td>
+                  <td className="p-3 text-gray-600">{s.speakerrole ?? '—'}</td>
                   <td className="p-3 text-gray-600 text-sm max-w-[150px] truncate" title={s.slug || ''}>{s.slug || '—'}</td>
                   <td className="p-3 text-gray-600">
                     {s.linkedin ? (
@@ -928,6 +939,20 @@ function Speakers() {
                 <option value="Technical Speaker">Technical Speaker</option>
                 <option value="Speaker">Speaker</option>
               </select>
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">Speaker Role (Optional)</label>
+              <input
+                placeholder="e.g., Professor, CEO"
+                value={editingSpeaker ? editSpeakerRole : addSpeakerRole}
+                onChange={(e) =>
+                  editingSpeaker
+                    ? setEditSpeakerRole(e.target.value)
+                    : setAddSpeakerRole(e.target.value)
+                }
+                className="w-full border border-gray-300 p-2 rounded focus:ring-2 focus:ring-blue-500 focus:outline-none"
+              />
             </div>
 
             <div>
