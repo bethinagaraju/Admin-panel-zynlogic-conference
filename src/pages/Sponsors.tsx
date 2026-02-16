@@ -760,10 +760,10 @@ function Sponsors() {
       // Add fields if they have values. The API treats them as optional params.
       if (editName) body.append('name', editName);
       if (editType) body.append('type', editType);
-      
+
       // Ensure we keep the sponsor associated with the current conference
       body.append('conferencecode', selectedEvent);
-      
+
       // Only append file if the user selected a new one
       if (editFile) {
         body.append('file', editFile);

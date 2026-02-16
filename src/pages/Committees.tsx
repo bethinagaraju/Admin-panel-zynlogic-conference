@@ -209,7 +209,7 @@ function Committees() {
     const updatedCommittees = [...committees];
     const [draggedItem] = updatedCommittees.splice(draggedItemIndex, 1);
     updatedCommittees.splice(targetIndex, 0, draggedItem);
-    
+
     setCommittees(updatedCommittees);
     setDraggedItemIndex(null);
     setIsReordering(true);
@@ -280,8 +280,8 @@ function Committees() {
               </tr>
             ) : (
               committees.map((c, index) => (
-                <tr 
-                  key={c.id} 
+                <tr
+                  key={c.id}
                   className={`hover:bg-gray-50 transition-colors ${draggedItemIndex === index ? 'opacity-50 bg-gray-100' : ''}`}
                   draggable
                   onDragStart={() => handleDragStart(index)}

@@ -141,7 +141,7 @@ function Testimonials() {
         formData.append('image', addImage);
       }
 
-      const res = await fetch(API_BASE_URL, { 
+      const res = await fetch(API_BASE_URL, {
         method: 'POST',
         body: formData
       });
@@ -192,7 +192,7 @@ function Testimonials() {
       setEditError('Username not available');
       return;
     }
-    
+
     setEditSubmitting(true);
     setEditError(null);
 
@@ -217,11 +217,11 @@ function Testimonials() {
 
       const url = `${API_BASE_URL}/${editingTestimonial.id}`;
 
-      const res = await fetch(url, { 
+      const res = await fetch(url, {
         method: 'PUT',
         body: formData
       });
-      
+
       if (!res.ok) {
         const text = await res.text().catch(() => '');
         throw new Error(`Status ${res.status} ${text}`);
@@ -246,16 +246,16 @@ function Testimonials() {
 
     try {
       setDeletingIds((s) => [...s, id]);
-      
+
       // DELETE /api/testimonials/{id} with FormData
       const formData = new FormData();
       formData.append('username', username);
 
-      const res = await fetch(`${API_BASE_URL}/${id}`, { 
+      const res = await fetch(`${API_BASE_URL}/${id}`, {
         method: 'DELETE',
         body: formData
       });
-      
+
       if (!res.ok) {
         const text = await res.text().catch(() => '');
         throw new Error(`Status ${res.status} ${text}`);
@@ -273,7 +273,7 @@ function Testimonials() {
     if (!rating) return null;
     return (
       <div className="flex">
-        {[1,2,3,4,5].map((star) => (
+        {[1, 2, 3, 4, 5].map((star) => (
           <Star key={star} className={`w-4 h-4 ${star <= rating ? 'text-yellow-400 fill-current' : 'text-gray-300'}`} />
         ))}
       </div>
@@ -369,37 +369,37 @@ function Testimonials() {
             <div className="space-y-4">
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">Name *</label>
-                <input 
-                  value={editName} 
-                  onChange={(e) => setEditName(e.target.value)} 
-                  className="w-full px-3 py-2 border border-gray-300 rounded focus:ring-2 focus:ring-blue-500 focus:outline-none" 
+                <input
+                  value={editName}
+                  onChange={(e) => setEditName(e.target.value)}
+                  className="w-full px-3 py-2 border border-gray-300 rounded focus:ring-2 focus:ring-blue-500 focus:outline-none"
                   placeholder="Enter name"
                 />
               </div>
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">University</label>
-                <input 
-                  value={editUniversity} 
-                  onChange={(e) => setEditUniversity(e.target.value)} 
-                  className="w-full px-3 py-2 border border-gray-300 rounded focus:ring-2 focus:ring-blue-500 focus:outline-none" 
+                <input
+                  value={editUniversity}
+                  onChange={(e) => setEditUniversity(e.target.value)}
+                  className="w-full px-3 py-2 border border-gray-300 rounded focus:ring-2 focus:ring-blue-500 focus:outline-none"
                   placeholder="Enter university"
                 />
               </div>
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">Description</label>
-                <textarea 
-                  value={editDescription} 
-                  onChange={(e) => setEditDescription(e.target.value)} 
-                  className="w-full px-3 py-2 border border-gray-300 rounded focus:ring-2 focus:ring-blue-500 focus:outline-none" 
+                <textarea
+                  value={editDescription}
+                  onChange={(e) => setEditDescription(e.target.value)}
+                  className="w-full px-3 py-2 border border-gray-300 rounded focus:ring-2 focus:ring-blue-500 focus:outline-none"
                   placeholder="Enter testimonial description"
                   rows={3}
                 />
               </div>
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">Rating (1-5)</label>
-                <select 
-                  value={editRating} 
-                  onChange={(e) => setEditRating(e.target.value === '' ? '' : Number(e.target.value))} 
+                <select
+                  value={editRating}
+                  onChange={(e) => setEditRating(e.target.value === '' ? '' : Number(e.target.value))}
                   className="w-full px-3 py-2 border border-gray-300 rounded focus:ring-2 focus:ring-blue-500 focus:outline-none"
                 >
                   <option value="">No rating</option>
@@ -412,11 +412,11 @@ function Testimonials() {
               </div>
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">Image</label>
-                <input 
+                <input
                   type="file"
                   accept="image/*"
-                  onChange={(e) => setEditImage(e.target.files?.[0] || null)} 
-                  className="w-full px-3 py-2 border border-gray-300 rounded focus:ring-2 focus:ring-blue-500 focus:outline-none" 
+                  onChange={(e) => setEditImage(e.target.files?.[0] || null)}
+                  className="w-full px-3 py-2 border border-gray-300 rounded focus:ring-2 focus:ring-blue-500 focus:outline-none"
                 />
                 {editingTestimonial.imagePath && (
                   <p className="text-sm text-gray-500 mt-1">Leave empty to keep current image</p>
@@ -427,9 +427,9 @@ function Testimonials() {
 
               <div className="flex justify-end gap-2 pt-2">
                 <button onClick={closeEdit} disabled={editSubmitting} className="px-4 py-2 rounded border hover:bg-gray-50">Cancel</button>
-                <button 
-                  onClick={submitEdit} 
-                  disabled={editSubmitting} 
+                <button
+                  onClick={submitEdit}
+                  disabled={editSubmitting}
                   className="px-4 py-2 rounded bg-blue-600 text-white hover:bg-blue-700 disabled:opacity-70 flex items-center gap-2"
                 >
                   {editSubmitting && <RefreshCw className="animate-spin w-4 h-4" />}
@@ -453,37 +453,37 @@ function Testimonials() {
             <div className="space-y-4">
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">Name *</label>
-                <input 
-                  value={addName} 
-                  onChange={(e) => setAddName(e.target.value)} 
-                  className="w-full px-3 py-2 border border-gray-300 rounded focus:ring-2 focus:ring-blue-500 focus:outline-none" 
+                <input
+                  value={addName}
+                  onChange={(e) => setAddName(e.target.value)}
+                  className="w-full px-3 py-2 border border-gray-300 rounded focus:ring-2 focus:ring-blue-500 focus:outline-none"
                   placeholder="Enter name"
                 />
               </div>
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">University</label>
-                <input 
-                  value={addUniversity} 
-                  onChange={(e) => setAddUniversity(e.target.value)} 
-                  className="w-full px-3 py-2 border border-gray-300 rounded focus:ring-2 focus:ring-blue-500 focus:outline-none" 
+                <input
+                  value={addUniversity}
+                  onChange={(e) => setAddUniversity(e.target.value)}
+                  className="w-full px-3 py-2 border border-gray-300 rounded focus:ring-2 focus:ring-blue-500 focus:outline-none"
                   placeholder="Enter university"
                 />
               </div>
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">Description</label>
-                <textarea 
-                  value={addDescription} 
-                  onChange={(e) => setAddDescription(e.target.value)} 
-                  className="w-full px-3 py-2 border border-gray-300 rounded focus:ring-2 focus:ring-blue-500 focus:outline-none" 
+                <textarea
+                  value={addDescription}
+                  onChange={(e) => setAddDescription(e.target.value)}
+                  className="w-full px-3 py-2 border border-gray-300 rounded focus:ring-2 focus:ring-blue-500 focus:outline-none"
                   placeholder="Enter testimonial description"
                   rows={3}
                 />
               </div>
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">Rating (1-5)</label>
-                <select 
-                  value={addRating} 
-                  onChange={(e) => setAddRating(e.target.value === '' ? '' : Number(e.target.value))} 
+                <select
+                  value={addRating}
+                  onChange={(e) => setAddRating(e.target.value === '' ? '' : Number(e.target.value))}
                   className="w-full px-3 py-2 border border-gray-300 rounded focus:ring-2 focus:ring-blue-500 focus:outline-none"
                 >
                   <option value="">No rating</option>
@@ -496,11 +496,11 @@ function Testimonials() {
               </div>
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">Image</label>
-                <input 
+                <input
                   type="file"
                   accept="image/*"
-                  onChange={(e) => setAddImage(e.target.files?.[0] || null)} 
-                  className="w-full px-3 py-2 border border-gray-300 rounded focus:ring-2 focus:ring-blue-500 focus:outline-none" 
+                  onChange={(e) => setAddImage(e.target.files?.[0] || null)}
+                  className="w-full px-3 py-2 border border-gray-300 rounded focus:ring-2 focus:ring-blue-500 focus:outline-none"
                 />
               </div>
 
@@ -508,9 +508,9 @@ function Testimonials() {
 
               <div className="flex justify-end gap-2 pt-2">
                 <button onClick={closeAdd} disabled={addSubmitting} className="px-4 py-2 rounded border hover:bg-gray-50">Cancel</button>
-                <button 
-                  onClick={submitAdd} 
-                  disabled={addSubmitting} 
+                <button
+                  onClick={submitAdd}
+                  disabled={addSubmitting}
                   className="px-4 py-2 rounded bg-blue-600 text-white hover:bg-blue-700 disabled:opacity-70 flex items-center gap-2"
                 >
                   {addSubmitting && <RefreshCw className="animate-spin w-4 h-4" />}

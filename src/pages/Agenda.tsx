@@ -805,7 +805,7 @@
 // //       });
 
 // //       if (!response.ok) throw new Error(`Failed to reorder: ${response.status}`);
-      
+
 // //       // Refresh to confirm server-side orderIndex updates
 // //       setReloadCounter((prev) => prev + 1);
 // //     } catch (err) {
@@ -1195,7 +1195,7 @@
 //       });
 
 //       if (!response.ok) throw new Error(`Failed to reorder: ${response.status}`);
-      
+
 //       // We don't necessarily need to reload if we trust our local state, 
 //       // but reloading confirms the DB saved it correctly.
 //       setReloadCounter((prev) => prev + 1);
@@ -1384,7 +1384,7 @@ function Agenda() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [reloadCounter, setReloadCounter] = useState(0);
-  
+
   // Tab State
   const [activeTab, setActiveTab] = useState('day1');
 
@@ -1614,7 +1614,7 @@ function Agenda() {
       setReloadCounter((prev) => prev + 1);
     } catch (err) {
       console.error(err);
-      setReloadCounter((prev) => prev + 1); 
+      setReloadCounter((prev) => prev + 1);
     } finally {
       setIsReordering(false);
       setDraggedItem(null);
@@ -1666,11 +1666,10 @@ function Agenda() {
             <button
               key={day}
               onClick={() => setActiveTab(day)}
-              className={`px-6 py-3 font-medium text-sm transition-colors relative ${
-                activeTab === day 
-                  ? 'text-blue-600' 
-                  : 'text-gray-500 hover:text-gray-700'
-              }`}
+              className={`px-6 py-3 font-medium text-sm transition-colors relative ${activeTab === day
+                ? 'text-blue-600'
+                : 'text-gray-500 hover:text-gray-700'
+                }`}
             >
               {formatDay(day)}
               {activeTab === day && (
@@ -1712,8 +1711,8 @@ function Agenda() {
                       <span className="font-semibold text-gray-900 truncate">{item.title}</span>
                     </div>
                     <div className="flex items-center gap-4 text-sm text-gray-600">
-                       {item.speaker && <span className="truncate">🎤 {item.speaker}</span>}
-                       <span className="truncate">📍 {item.room}</span>
+                      {item.speaker && <span className="truncate">🎤 {item.speaker}</span>}
+                      <span className="truncate">📍 {item.room}</span>
                     </div>
                     {item.description && (
                       <p className="text-sm text-gray-500 mt-2 line-clamp-2">{item.description}</p>
@@ -1742,9 +1741,9 @@ function Agenda() {
             <div className="grid grid-cols-2 gap-4">
               <div className="col-span-1">
                 <label className="block text-sm font-semibold text-gray-700 mb-1">Day</label>
-                <select 
-                  value={addForm.day} 
-                  onChange={(e) => setAddForm(prev => ({ ...prev, day: e.target.value }))} 
+                <select
+                  value={addForm.day}
+                  onChange={(e) => setAddForm(prev => ({ ...prev, day: e.target.value }))}
                   className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 bg-white"
                 >
                   <option value="day1">Day 1</option>
@@ -1790,9 +1789,9 @@ function Agenda() {
             <div className="space-y-4">
               <div>
                 <label className="block text-sm font-semibold text-gray-700 mb-1">Day</label>
-                <select 
-                  value={editForm.day} 
-                  onChange={(e) => setEditForm(prev => ({ ...prev, day: e.target.value }))} 
+                <select
+                  value={editForm.day}
+                  onChange={(e) => setEditForm(prev => ({ ...prev, day: e.target.value }))}
                   className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 bg-white"
                 >
                   <option value="day1">Day 1</option>
@@ -1813,12 +1812,12 @@ function Agenda() {
                 <input type="text" value={editForm.room} onChange={(e) => setEditForm(prev => ({ ...prev, room: e.target.value }))} className="w-full px-4 py-2 border border-gray-300 rounded-lg" placeholder="Room" />
               </div>
               <div>
-                 <label className="block text-sm font-semibold text-gray-700 mb-1">Speaker</label>
-                 <input type="text" value={editForm.speaker} onChange={(e) => setEditForm(prev => ({ ...prev, speaker: e.target.value }))} className="w-full px-4 py-2 border border-gray-300 rounded-lg" />
+                <label className="block text-sm font-semibold text-gray-700 mb-1">Speaker</label>
+                <input type="text" value={editForm.speaker} onChange={(e) => setEditForm(prev => ({ ...prev, speaker: e.target.value }))} className="w-full px-4 py-2 border border-gray-300 rounded-lg" />
               </div>
               <div>
-                 <label className="block text-sm font-semibold text-gray-700 mb-1">Description</label>
-                 <textarea value={editForm.description} onChange={(e) => setEditForm(prev => ({ ...prev, description: e.target.value }))} className="w-full px-4 py-2 border border-gray-300 rounded-lg" rows={2}/>
+                <label className="block text-sm font-semibold text-gray-700 mb-1">Description</label>
+                <textarea value={editForm.description} onChange={(e) => setEditForm(prev => ({ ...prev, description: e.target.value }))} className="w-full px-4 py-2 border border-gray-300 rounded-lg" rows={2} />
               </div>
             </div>
             <div className="flex justify-end gap-3 mt-8">

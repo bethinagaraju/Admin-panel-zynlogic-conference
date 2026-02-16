@@ -57,7 +57,7 @@ function App() {
             logout();
           }
 
-          else{
+          else {
             console.log('Token is valid');
           }
 
@@ -130,9 +130,8 @@ function App() {
       <Navbar toggleSidebar={toggleSidebar} isCollapsed={isCollapsed} />
 
       <main
-        className={`pt-24 pb-8 px-6 transition-all duration-300 ${
-          isCollapsed ? 'ml-20' : 'ml-64'
-        }`}
+        className={`pt-24 pb-8 px-6 transition-all duration-300 ${isCollapsed ? 'ml-20' : 'ml-64'
+          }`}
       >
         <div className="max-w-7xl mx-auto">
           {renderContent()}

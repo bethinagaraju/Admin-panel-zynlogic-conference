@@ -12,7 +12,7 @@ interface AbstractSubmission {
   organization: string;
   country: string;
   abstractFilePath: string;
-   createdAt?: string | null;
+  createdAt?: string | null;
 }
 
 function AbstractSubmissions() {
@@ -106,14 +106,14 @@ function AbstractSubmissions() {
                     <td className="px-6 py-4 text-sm text-gray-700">{submission.country}</td>
                     {/* <td className="px-6 py-4 text-sm text-gray-700">{submission.createdAt.split("T")[0]}</td> */}
                     <td className="px-6 py-4 text-sm text-gray-700">
-  {submission.createdAt
-    ? new Date(submission.createdAt.split("T")[0]).toLocaleDateString("en-IN", {
-        day: "2-digit",
-        month: "short",
-        year: "numeric",
-      })
-    : "—"}
-</td>
+                      {submission.createdAt
+                        ? new Date(submission.createdAt.split("T")[0]).toLocaleDateString("en-IN", {
+                          day: "2-digit",
+                          month: "short",
+                          year: "numeric",
+                        })
+                        : "—"}
+                    </td>
                     <td className="px-6 py-4">
                       {submission.abstractFilePath ? (
                         <a href={submission.abstractFilePath} target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">

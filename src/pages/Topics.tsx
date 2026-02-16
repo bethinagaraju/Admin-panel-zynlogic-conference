@@ -860,7 +860,7 @@ function Topics() {
     const updatedTopics = [...topics];
     const [draggedItem] = updatedTopics.splice(draggedItemIndex, 1);
     updatedTopics.splice(targetIndex, 0, draggedItem);
-    
+
     setTopics(updatedTopics);
     setDraggedItemIndex(null);
     setIsReordering(true);
@@ -1081,8 +1081,8 @@ function Topics() {
                   </tr>
                 ) : (
                   topics.map((topic, index) => (
-                    <tr 
-                      key={topic.id} 
+                    <tr
+                      key={topic.id}
                       className={`hover:bg-gray-50 transition-colors ${draggedItemIndex === index ? 'opacity-50 bg-gray-100' : ''}`}
                       draggable
                       onDragStart={() => handleDragStart(index)}
@@ -1110,11 +1110,10 @@ function Topics() {
                           <button
                             onClick={() => handleDelete(topic.id)}
                             disabled={deletingIds.includes(topic.id)}
-                            className={`p-2 rounded transition-colors ${
-                              deletingIds.includes(topic.id) 
-                                ? 'text-gray-400 cursor-not-allowed' 
-                                : 'text-red-600 hover:text-red-800 hover:bg-red-50'
-                            }`}
+                            className={`p-2 rounded transition-colors ${deletingIds.includes(topic.id)
+                              ? 'text-gray-400 cursor-not-allowed'
+                              : 'text-red-600 hover:text-red-800 hover:bg-red-50'
+                              }`}
                             title="Delete"
                           >
                             <Trash2 className="w-4 h-4" />

@@ -40,7 +40,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     const storedUsername = localStorage.getItem('adminUsername');
     const storedRole = localStorage.getItem('adminRole');
     const storedIsLogin = localStorage.getItem('adminIsLogin') === 'true';
-    
+
     if (token && storedIsLogin) {
       // User has completed full login process
       setAccessToken(token);
